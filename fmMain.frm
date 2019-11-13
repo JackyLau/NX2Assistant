@@ -6,6 +6,7 @@ Begin VB.Form fmMain
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   1635
+   Icon            =   "fmMain.frx":0000
    LinkTopic       =   "Form1"
    LockControls    =   -1  'True
    MaxButton       =   0   'False
@@ -74,7 +75,7 @@ Private Const SWP_NOMOVE = &H2
 Private Const SWP_NOSIZE = &H1
 Private Const HWND_TOPMOST = -1
 
-Const vTimeDelay As Integer = 150
+Const vTimeDelay As Integer = 250
 Const vSendCommand As String = "^+S|~|~|~|%F|C"
 Const vProgramName As String = "Capture NX 2"
 Const vSaveName As String = "Àx¦s¿ï¶µ"
@@ -192,6 +193,14 @@ Private Sub Form_Load()
     Dim vCount As Integer
     
     If App.PrevInstance Then End
+    vCount = GetSetting("Ranseco", "NX2Assistant", "Count", 0)
+    vCount = vCount + 1
+    If (vCount >= 500) Or (Now > #12/31/2021#) Then
+        MsgBox "Program Outdated, Please contact ... jackylau@yahoo.com ... For upgrade"
+        End
+    End If
+    SaveSetting "Ranseco", "NX2Assistant", "Count", vCount
+    
     SetWindowPos Me.hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE Or SWP_NOMOVE
     c_AllText = Split(vSendCommand, "|")
 End Sub
